@@ -11,8 +11,8 @@ const Home = () => {
         </div>
 
         <h1 className="hero-title">
-          Take Control of Your
-          <span>Financial Future</span>
+          Take Your Expense
+          <span>Check the Weather</span>
         </h1>
 
         <p className="hero-subtitle">

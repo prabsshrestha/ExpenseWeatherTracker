@@ -1,7 +1,86 @@
+import { ExpenseSummary } from "../components/expenses/ExpenseSummary";
 import { ExpenseForm } from "../components/expenses/ExpenseForm";
+import { useApp } from "../context/AppContext";
+import { useSearchParams } from "react-router-dom";
+import type { ExpenseCategory } from "../types/expense";
+import { useCallback, useMemo } from "react";
+import { ExpenseFilter } from "../components/expenses/ExpenseFilter";
+import { ExpenseList } from "../components/expenses/ExpenseList";
 
-const Expense = () => {
-  return <ExpenseForm />;
-};
+export default function Expenses() {
+  const { state } = useApp();
+  const { expenses, currency } = state;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryFilter =
+    (searchParams.get("category") as ExpenseCategory | "all") || "all";
+  const dateFilter = searchParams.get("date") || "";
 
-export default Expense;
+  const setCategoryFilter = useCallback(
+    (value: ExpenseCategory | "all") => {
+      setSearchParams((prev) => {
+        if (value === "all") {
+          prev.delete("category");
+        } else {
+          prev.set("category", value);
+        }
+        return prev;
+      });
+    },
+    [setSearchParams]
+  );
+
+  const setDateFilter = useCallback(
+    (value: string) => {
+      setSearchParams((prev) => {
+        if (value === "") {
+          prev.delete("date");
+        } else {
+          prev.set("date", value);
+        }
+        return prev;
+      });
+    },
+    [setSearchParams]
+  );
+
+  const filteredExpenses = useMemo(() => {
+    return expenses.filter((expense) => {
+      const matchesCategory =
+        categoryFilter === "all" || expense.category === categoryFilter;
+      const matchesDate = !dateFilter || expense.date === dateFilter;
+      return matchesCategory && matchesDate;
+    });
+  }, [expenses, categoryFilter, dateFilter]);
+  return (
+    <div className="expenses-page">
+      <div className="expenses-grid">
+        {/* LEFT SIDE */}
+        <div className="expenses-left">
+          <ExpenseSummary expenses={expenses} currency={currency} />
+          <ExpenseFilter
+            category={categoryFilter}
+            date={dateFilter}
+            onCategoryChange={setCategoryFilter}
+            onDateChange={setDateFilter}
+            onClear={() => {
+              setCategoryFilter("all");
+              setDateFilter("");
+            }}
+          />
+
+          <h3 className="expense-length">
+            {filteredExpenses.length === expenses.length
+              ? `All Expenses (${expenses.length})`
+              : `Filtered Results (${filteredExpenses.length} of ${expenses.length})`}
+          </h3>
+          <ExpenseList expenses={filteredExpenses} currency={currency} />
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="expenses-right">
+          <ExpenseForm />
+        </div>
+      </div>
+    </div>
+  );
+}
