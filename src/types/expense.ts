@@ -17,7 +17,6 @@ export type ExpenseCategory =
 
 export const EXPENSE_CATEGORIES: { value: ExpenseCategory; label: string; }[] = [
   { value: 'food', label: 'Food & Dining'},
-  { value: 'food', label: 'Food & Dining'},
   { value: 'transport', label: 'Transport'},
   { value: 'entertainment', label: 'Entertainment'},
   { value: 'utilities', label: 'Utilities'},

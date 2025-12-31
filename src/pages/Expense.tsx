@@ -18,12 +18,13 @@ export default function Expenses() {
   const setCategoryFilter = useCallback(
     (value: ExpenseCategory | "all") => {
       setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
         if (value === "all") {
-          prev.delete("category");
+          params.delete("category");
         } else {
-          prev.set("category", value);
+          params.set("category", value);
         }
-        return prev;
+        return params;
       });
     },
     [setSearchParams]
@@ -32,16 +33,22 @@ export default function Expenses() {
   const setDateFilter = useCallback(
     (value: string) => {
       setSearchParams((prev) => {
-        if (value === "") {
-          prev.delete("date");
+        const params = new URLSearchParams(prev);
+
+        if (!value) {
+          params.delete("date");
         } else {
-          prev.set("date", value);
+          params.set("date", value);
         }
-        return prev;
+        return params;
       });
     },
     [setSearchParams]
   );
+
+  const clearFilters = useCallback(() => {
+    setSearchParams({});
+  }, [setSearchParams]);
 
   const filteredExpenses = useMemo(() => {
     return expenses.filter((expense) => {
@@ -62,10 +69,7 @@ export default function Expenses() {
             date={dateFilter}
             onCategoryChange={setCategoryFilter}
             onDateChange={setDateFilter}
-            onClear={() => {
-              setCategoryFilter("all");
-              setDateFilter("");
-            }}
+            onClear={clearFilters}
           />
 
           <h3 className="expense-length">

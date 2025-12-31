@@ -20,15 +20,12 @@ export function ExpenseFilter({
 
   return (
     <div className="expense-filter-card">
-      {/* Header */}
       <div className="filter-header">
         <Filter size={16} />
         <span>Filters</span>
       </div>
 
-      {/* Filters */}
       <div className="filter-grid">
-        {/* Category Filter */}
         <div className="filter-group">
           <label>Category</label>
           <div className="filter-input">
@@ -49,7 +46,6 @@ export function ExpenseFilter({
           </div>
         </div>
 
-        {/* Date Filter */}
         <div className="filter-group">
           <label>Date</label>
           <div className="filter-input">
@@ -62,7 +58,6 @@ export function ExpenseFilter({
           </div>
         </div>
 
-        {/* Clear Button */}
         {hasActiveFilters && (
           <button className="filter-clear" onClick={onClear}>
             <X size={14} />

@@ -40,7 +40,6 @@ export function ExpenseSummary({ expenses, currency }: ExpenseSummaryProps) {
 
   return (
     <div className="summary-grid">
-      {/* Total Expenses */}
       <div className="summary-card">
         <div className="summary-inner">
           <div className="summary-content">
@@ -54,7 +53,6 @@ export function ExpenseSummary({ expenses, currency }: ExpenseSummaryProps) {
         </div>
       </div>
 
-      {/* This Month */}
       <div className="summary-card">
         <div className="summary-inner">
           <div className="summary-content">
