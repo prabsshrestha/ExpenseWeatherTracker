@@ -41,13 +41,7 @@ const ExpenseItem = memo(function ExpenseItem({
   );
 });
 
-export function ExpenseList({
-  expenses,
-  currency,
-}: {
-  expenses: Expense[];
-  currency: string;
-}) {
+export function ExpenseList({ expenses }: { expenses: Expense[] }) {
   if (expenses.length === 0) {
     return <p>No expenses yet.</p>;
   }
