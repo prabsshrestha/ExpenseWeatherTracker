@@ -33,10 +33,10 @@ export function ExpenseSummary({ expenses, currency }: ExpenseSummaryProps) {
   }, [expenses]);
 
   const formatCurrency = (amount: number) =>
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-    }).format(amount);
+    `Rs. ${new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount)}`;
 
   return (
     <div className="summary-grid">
